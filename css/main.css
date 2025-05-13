@@ -234,3 +234,12 @@ article {
   font-size: 20px;
   text-align: center;
 }
+
+button {
+  width: 45px;
+  height: 25px;
+  border: none;
+  border-radius: 6px;
+  color: #333;
+  margin: 10px 0 0;
+}
