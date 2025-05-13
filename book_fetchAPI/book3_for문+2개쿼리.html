@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 연습</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        section {
+            width: 1300px;
+            height: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-content: space-around;
+        }
+
+        section h3 {
+            width: 100%;
+        }
+
+        .box {
+            width: 300px;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 4px 4px 4px #eee;
+        }
+
+        .box p {
+            font-size: 11px;
+            color: #666;
+            text-align: left;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="wrap">
+
+        <h1>도서 API</h1>
+
+        <section id="new">
+            <h3>신간도서</h3>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </section>
+
+        <section id="sale">
+            <h3>세일 도서 </h3>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </section>
+
+    </div>
+
+
+    <script>
+        async function fetchBooks(query) {
+            const params = new URLSearchParams({
+                target: "title",
+                query,
+                size: 50
+            });
+            const url = `https://dapi.kakao.com/v3/search/book?${params}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: "KakaoAK 7b2300fc6315bb65035d1a3c7b49b161"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 오류: ${response.status}`);
+            }
+
+            return response.json();
+        }
+
+        async function bookData() {
+            try {
+                const querys = ['자바스크립트', '정원'];
+
+                querys.forEach(async (query, i) => {
+                    const data = await fetchBooks(query);
+
+                    // for문 (8개)
+                    const divs = $('section').eq(i).find('.box');
+
+                    for (let j=0; j<divs.length; j++) {
+                        divs.eq(j).append("<img src=" + data.documents[j].thumbnail + "/>");
+                        divs.eq(j).append("<h3>" + data.documents[j].title + "</h3>");
+                        divs.eq(j).append("<h6>" + data.documents[j].authors + "</h6>");
+
+                        let content = data.documents[j].contents;
+                        let str = content.substring(0, 60);
+
+                        divs.eq(j).append("<p>" + str + "</p>");
+                        divs.eq(j).append("<button>" + "click" + "</button>");
+                    }
+                })
+            } catch (error) {
+                console.log('에러발생', error);
+            }
+        }
+
+        bookData();
+
+    </script>
+</body>
+
+</html>

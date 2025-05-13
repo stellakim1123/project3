@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        *{margin:0; padding:0; box-sizing:border-box;}
+        ul, ol, li{list-style:none; }
+        a{text-decoration: none;}
+
+        header{width:1300px; height:150px; border:1px solid #eee; border-radius: 10px; padding:10px; }
+
+        header h1{text-align:center;}
+
+        section{width:1300px; height:900px; margin: 0 auto;}
+    </style>
+
+</head>
+<body>
+    <header>
+        <h1>도서 API</h1>
+    </header>
+    
+    <section>
+        <h3>추천도서</h3>
+        <ul id="booktab">
+            <li>문학/인문</li>
+            <li>유아/아동</li>
+            <li>경제/교양</li>
+        </ul>
+    
+        <h4 if="titlelist">문학/인문</h4>
+    
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+        
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+    </section>
+
+    <footer>
+        <p>Copyright ⓒ INTERPARK Corporation All rights reserved.</p>
+    </footer>
+
+    <script>
+       async function fetchBooks(query) {
+        const params =new URLSearchParams({
+            target: "title", 
+            query,
+        }); 
+
+        const url = `https://dapi.kakao.com/v3/search/book?${params}`;
+
+        const response = await fetch(url, {
+            method: 'GET', 
+            headers: {
+                Authorization : "KakaoAK 63346950c3790693cf435b45d5a338ed"
+            }
+        }); 
+
+        if(!response.ok){
+            throw new Error(`HTTP 오류: ${response.status}`); 
+        }
+
+        return response.json();
+       }
+
+       async function bookData() {
+        try{
+            const querys= ['파리', '유아', '경제']; 
+
+            querys.forEach(async(query, i)=>{
+                const data =await fetchBooks(query); 
+
+                const divs=$("article").eq(i).find(".box"); 
+
+                for(let j=0; j<divs.length; j++){
+                    divs.eq(j).append("<img src="+data.documents[j].thumbnail+">");
+                    divs.eq(j).append("<h3>"+data.documents[j].title+"</h3>");
+                    divs.eq(j).append("<h6>"+data.documents[j].authors+"</h6>"); 
+
+                    let str=data.documents[j].contents.substring(0,60); 
+
+                    divs.eq(j).append("<p>"+str+"</p>"); 
+                    divs.eq(j).append("<button>click</button>");
+                }
+            })
+        } catch(error){
+            console.log("에러발생", error); 
+        }
+       }
+
+       bookData();
+
+       $('#booktab li').click(function(){
+        let i=$(this).index(); 
+        $(".list").eq(i).show().siblings(".list").hide();
+       });
+
+       $("#booktab li").click(function(){
+        $("#titlelist").text($(this).text());
+       });
+
+
+    </script>
+</body>
+</html>

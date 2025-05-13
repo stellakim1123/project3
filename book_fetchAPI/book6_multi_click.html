@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 연습</title>
+
+    <style>
+        /*reset*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul,
+        ol {
+
+
+
+
+            list-style: none;
+        }
+
+        header {
+            width: 1300px;
+            height: 150px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            border-radius: 30px;
+            padding: 10px;
+        }
+
+        header h1 {
+            text-align: center;
+        }
+
+        section {
+            width: 1300px;
+            height: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section h3 {
+            text-align: center;
+        }        
+
+        /*목록*/
+        #booktab {
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #booktab li {                        
+            float: left;
+            text-align: center;
+            line-height: 45px;
+            cursor: pointer;
+            padding: 5px 50px;            
+            border-left: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #booktab li:last-child {
+            border-right: 1px solid #ddd;
+        }
+
+        article {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            position: relative;
+        }
+
+        .list:not(:first-of-type) {
+            display: none;
+        }
+
+        .box {
+            width: calc(25% - 20px);
+            text-align: center;
+            margin: 10px;
+            padding: 15px 30px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 4px 4px 4px #eee;
+        }
+
+        .box p {
+            font-size: 11px;
+            color: #666;
+            text-align: left;
+        }
+
+        footer {
+            width: 1300px;
+            height: 80px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            border-radius: 30px;
+        }
+
+        footer p {
+            text-align: center;
+            font-size: 11px;
+            line-height: 80px;
+            color: #666;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>도서 API</h1>
+    </header>
+
+
+    <section>
+        <h3>추천 도서</h3>
+
+        <ul id="booktab">
+            <li>문학/인문</li>
+            <li>유아/아동</li>
+            <li>경제/교양</li>
+        </ul>
+
+
+        <h4 id="titlelist">문학/인문</h4>
+
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+
+
+        <article class="list">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </article>
+
+    </section>
+
+    <footer>
+        <p>Copyright ⓒ INTERPARK Corporation All rights reserved.
+        <p>
+    </footer>
+
+    <script>
+        async function fetchBooks(query) {
+            const params = new URLSearchParams({
+                target: "title",
+                query,
+            });
+            const url = `https://dapi.kakao.com/v3/search/book?${params}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: "KakaoAK 7b2300fc6315bb65035d1a3c7b49b161"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 오류: ${response.status}`);
+            }
+
+            return response.json();
+        }
+
+        async function bookData() {
+            try {
+                const querys = ['파리', '유아', '경제'];
+
+                querys.forEach(async (query, i) => {
+                    const data = await fetchBooks(query);
+
+                    // for문 (8개)
+                    const divs = $('article').eq(i).find('.box');
+
+                    for (let j=0; j<divs.length; j++) {
+                        divs.eq(j).append("<img src=" + data.documents[j].thumbnail + "/>");
+                        divs.eq(j).append("<h3>" + data.documents[j].title + "</h3>");
+                        divs.eq(j).append("<h6>" + data.documents[j].authors + "</h6>");
+
+                        let content = data.documents[j].contents;
+                        let str = content.substring(0, 60);
+
+                        divs.eq(j).append("<p>" + str + "</p>");
+                        divs.eq(j).append("<button>" + "click" + "</button>");
+                    }
+                })
+            } catch (error) {
+                console.log('에러발생', error);
+            }
+        }
+
+        bookData();
+
+        //multipage
+        $('#booktab li').click(function () {
+            let i = $(this).index();
+            $('.list').eq(i).show().siblings('.list').hide();
+        });
+
+        // title 
+        $("#booktab li").click(function () {
+            $("#titlelist").text($(this).text());
+        });
+
+    </script>
+
+</body>
+
+</html>
