@@ -56,28 +56,6 @@ async function fetchBooks(query) {
     $("#titlelist").text($(this).text());
    });
 
-// async function fetchBooks2(query) {
-//         const params = new URLSearchParams({
-//             target: "title",
-//             query,
-//             size: 50
-//         });
-//         const url = `https://dapi.kakao.com/v3/search/book?${params}`;
-
-//         const response = await fetch(url, {
-//             method: 'GET',
-//             headers: {
-//                 Authorization: "KakaoAK 7b2300fc6315bb65035d1a3c7b49b161"
-//             }
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`HTTP 오류: ${response.status}`);
-//         }
-
-//         return response.json();
-//     }
-
 
 async function bookData2() {
         try {
@@ -87,7 +65,7 @@ async function bookData2() {
                 const data = await fetchBooks(query);
 
                 // for문 (8개)
-                const divs = $('section').eq(k+2).children('.box');
+                const divs = $('section').eq(k+3).children('.box');
                 console.log(divs)
                 for (let l=0; l<divs.length; l++) {
                     divs.eq(l).append("<img src=" + data.documents[l].thumbnail + "/>");

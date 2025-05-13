@@ -1,6 +1,4 @@
-*{margin:0; padding:0; box-sizing:border-box;}
-        ul, ol, li{list-style:none;  }
-        a{text-decoration: none; color:#181717;}
+@charset "utf-8"; 
 
 #wrap{ margin:0 auto;  width:1400px; }
 
@@ -19,22 +17,6 @@
 #menu3>ul{display:flex; justify-content: space-evenly; padding:20px; width:300px; }
 #menu{background-color:aliceblue;}
 
-#books {width: 1300px; height: 900px; margin: 0 auto; padding: 20px; position:relative; }
-#books>h3 { text-align: center; }        
-
-    /*목록*/
-#booktab { margin: 10px;  display: flex; justify-content: center; }
-
-#booktab li {  float: left;  text-align: center;line-height: 45px; cursor: pointer; padding: 5px 50px; border-left: 1px solid #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-
-#booktab li:last-child { border-right: 1px solid #ddd;}
-article { display: flex; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; position: relative; }
-
-#titlelist{margin: 15px;}
-.list:not(:first-of-type) { display: none; }
-.box { width: calc(25% - 20px);text-align: center; margin: 10px;padding: 15px 30px; border-radius: 4px; border: 1px solid #ddd; box-shadow: 4px 4px 4px #eee;
- }
-.box p {font-size: 11px;color: #666; text-align: left;}
 
 footer{ width: 92%; background-color:aliceblue;  margin: 10px auto;}
 footer h5{padding: 20px; font-size: 15px; color: #444;}
