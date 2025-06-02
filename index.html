@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>슬 서재</title>
+
 </head>
 
 <body>
@@ -16,9 +17,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
 
-
-        <link rel="stylesheet" href="css/main.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="css/main.css">
 
     </head>
 
@@ -61,27 +63,87 @@
             </header>
             <section id="exhibitions">
                 <h3>기획전</h3>
-            </section>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background-image:url(img/slide2.jpg)">
+                            <div class="text">
+                                <img src="img/new1.webp" alt="">
+                                <img src="img/discount_10.webp" alt="">
+                                <h3>멸종 위기에 빠진 인간 경험을 구출하라!</h3>
+                                <p>"경험의 멸종"출간 기념 기획전</p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide" style="background-image:url(img/slide3.jpg)">
+                            <div class="text">
+                                <div></div>
+                                <img src="img/set1.webp" alt="">
+                                <img src="img/rent1.webp" alt="">
+                                <h3>한국 대표 시집 세트 50년 대여</h3>
+                                <p>시대의 언어로 마음을 울린 대표 시</p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide" style="background-image:url(img/slide4.png)">
+                             <div class="text">
+                                <h3>법을 소재로 한 소설들 기획전</h3>
+                                <p>소장 10%/ 대여 50% 할인</p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide" style="background-image:url(img/slide5.png)">
+                            <div class="text">
+                                <h3>혼란한 나라를 바로 세우는 정책 문답</h3>
+                                <p>소장 10%/ 대여 50% 할인</p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide" style="background-image:url(img/slide6.jpg)">
+                            <div class="text">
+                                <h3>경민선 신작 장편 "영혼 셔플" 출간!</h3>
+                                <p>소장 10%/ 대여 50% 할인</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
 
+                <!-- Swiper JS -->
+                <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+                <!-- Initialize Swiper -->
+                <script>
+                    var swiper = new Swiper(".mySwiper", {
+                        pagination: {
+                            el: ".swiper-pagination",
+                            type: "fraction",
+                        },
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                    });
+                </script>
+            </section>
             <section id="quick">
                 <ul id="quickIcon">
                     <li>
                         <a href="#">
                             <div><img src="img/1.webp" alt="1">
-                            <span>100%포백</span>
-                        </div>
+                                <span>100%포백</span>
+                            </div>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div><img src="img/new.webp" alt="new">
-                            <span>신간</span></div>
+                                <span>신간</span>
+                            </div>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div><img src="img/bestseller.webp" alt="best">
-                            <span>북스 베스트</span></div>
+                                <span>북스 베스트</span>
+                            </div>
                         </a>
                     </li>
                     <li>
@@ -94,13 +156,15 @@
                     <li>
                         <a href="#">
                             <div><img src="img/event.webp" alt="event">
-                            <span>이벤트</span></div>
+                                <span>이벤트</span>
+                            </div>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <div><img src="img/coupon.webp" alt="coupon">
-                            <span>이달의 쿠폰</span></div>
+                                <span>이달의 쿠폰</span>
+                            </div>
                         </a>
                     </li>
                     <li>
